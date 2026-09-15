@@ -20,5 +20,5 @@ export async function login(formData: FormData) {
     redirect("/login?error=not_staff");
   }
 
-  redirect("/queue");
+  redirect("/home");
 }

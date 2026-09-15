@@ -42,7 +42,7 @@ export async function middleware(request: NextRequest) {
 
   if (user && isLoginRoute) {
     const url = request.nextUrl.clone();
-    url.pathname = "/queue";
+    url.pathname = "/home";
     return NextResponse.redirect(url);
   }
 

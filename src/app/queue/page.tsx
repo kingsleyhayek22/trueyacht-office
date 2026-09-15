@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireStaff, getNavCounts } from "@/lib/data";
 import { Shell } from "@/components/Shell";
+import { RowLink } from "@/components/RowLink";
 
 export default async function QueuePage() {
   const { supabase, fullName } = await requireStaff();
@@ -50,7 +51,7 @@ export default async function QueuePage() {
               if (r.line_items_reconciled === false) flags.push("Gap");
 
               return (
-                <tr key={r.id}>
+                <RowLink key={r.id} href={`/queue/${r.id}`}>
                   <td className="mono">{r.date}</td>
                   <td className="vessel-tag">
                     {(r.vessels as unknown as { name: string } | null)?.name ?? "—"}
@@ -67,9 +68,9 @@ export default async function QueuePage() {
                     )}
                   </td>
                   <td className="row-arrow">
-                    <Link href={`/queue/${r.id}`}>→</Link>
+                    <Link href={`/queue/${r.id}`}>›</Link>
                   </td>
-                </tr>
+                </RowLink>
               );
             })}
           </tbody>

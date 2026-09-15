@@ -49,7 +49,7 @@ export default async function SubmissionDetailPage({
   return (
     <Shell active="queue" userName={fullName} counts={counts}>
       <div className="detail-top">
-        <a href="/queue">← Back to queue</a>
+        <a href="/queue">‹ Back to queue</a>
       </div>
       <div className="main-top">
         <h1>

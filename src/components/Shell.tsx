@@ -17,9 +17,14 @@ export function Shell({
   return (
     <div className="shell">
       <aside className="side">
-        <div className="word">
-          TrueYacht
-          <b>Office</b>
+        <div className="brand">
+          <Link href="/home" className="word">
+            TrueYacht
+            <b>Office</b>
+          </Link>
+          <Link href="/home" className="back-home">
+            ‹ Home
+          </Link>
         </div>
 
         <nav>
@@ -59,7 +64,7 @@ export function Shell({
   );
 }
 
-function initials(name: string) {
+export function initials(name: string) {
   const parts = name.trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return "?";
   return parts

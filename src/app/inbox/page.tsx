@@ -1,11 +1,12 @@
+import Link from "next/link";
 import { requireStaff, getNavCounts } from "@/lib/data";
 import { Shell } from "@/components/Shell";
+import { RowLink } from "@/components/RowLink";
 
 /**
- * Read-only view of receipts that exist (captured, or extracted by the
+ * List of receipts that exist (captured, or extracted by the
  * receipts@trueyacht.com script) but haven't reached awaiting_review yet.
- * There's no processing UI here — Confirm/Category/Charter for these rows
- * is a separate follow-up (see Office - Plan & Scope.md, Wireframe 04).
+ * Click a row to open /inbox/[id] and run Confirm/Category/Charter.
  */
 export default async function InboxPage() {
   const { supabase, fullName } = await requireStaff();
@@ -48,11 +49,12 @@ export default async function InboxPage() {
               <th>Vendor</th>
               <th>Amount</th>
               <th>Status</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r) => (
-              <tr key={r.id}>
+              <RowLink key={r.id} href={`/inbox/${r.id}`}>
                 <td className="mono">{new Date(r.created_at).toLocaleDateString()}</td>
                 <td className="vessel-tag">
                   {r.submission_source === "email"
@@ -65,7 +67,10 @@ export default async function InboxPage() {
                 <td>
                   <span className={`status-chip ${r.status}`}>{r.status}</span>
                 </td>
-              </tr>
+                <td className="row-arrow">
+                  <Link href={`/inbox/${r.id}`}>›</Link>
+                </td>
+              </RowLink>
             ))}
           </tbody>
         </table>
