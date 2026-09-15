@@ -66,6 +66,12 @@ table {
   height: 100vh;
 }
 
+.side .brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
 .side .word {
   font-family: var(--font-serif);
   font-size: 1.05rem;
@@ -82,6 +88,16 @@ table {
   color: var(--aqua);
   font-weight: 700;
   margin-top: 0.15rem;
+}
+
+.side .back-home {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.side .back-home:hover {
+  color: var(--aqua);
 }
 
 .nav-label {
@@ -224,6 +240,22 @@ table.q tbody td {
   padding: 0.7rem 0.6rem 0.7rem 0;
   border-bottom: 1px solid var(--line-soft);
   vertical-align: middle;
+}
+
+table.q tbody tr.row-clickable {
+  cursor: pointer;
+}
+
+table.q tbody tr:hover td {
+  background: var(--tint);
+}
+
+table.q tbody tr:hover td:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+table.q tbody tr:hover td:last-child {
+  border-radius: 0 8px 8px 0;
 }
 
 .vessel-tag {
@@ -515,4 +547,599 @@ table.q tbody td {
   margin-top: 1rem;
   font-size: 0.78rem;
   text-align: center;
+}
+
+/* --- inbox edit form (Wireframe 05) --- */
+.edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.edit-field label {
+  color: var(--ink-faint);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.edit-field input,
+.edit-field textarea {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.84rem;
+  font-family: inherit;
+  color: var(--ink);
+  background: var(--paper);
+  width: 100%;
+}
+
+.edit-field input:not(:disabled):hover,
+.edit-field textarea:not(:disabled):hover {
+  border-color: var(--aqua);
+  background: var(--tint);
+}
+
+.edit-field input:focus,
+.edit-field textarea:focus {
+  outline: none;
+  border-color: var(--aqua);
+}
+
+.edit-field input.required-empty {
+  border-color: rgba(185, 28, 28, 0.4);
+  background: var(--red-bg);
+}
+
+.edit-field .dd {
+  width: 100%;
+}
+
+.edit-field .required-note {
+  color: var(--red);
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Custom dropdown (Dropdown.tsx) — replaces <select> everywhere on this
+   screen so the popup list itself can be styled (a native select's popup
+   is drawn by the OS/browser and can't be rounded or given hover states). */
+.dd {
+  position: relative;
+}
+
+.dd-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.84rem;
+  font-family: inherit;
+  color: var(--ink);
+  background: var(--paper);
+  cursor: pointer;
+  text-align: left;
+}
+
+.dd-trigger:hover {
+  border-color: var(--aqua);
+  background: var(--tint);
+}
+
+.dd-trigger[aria-expanded="true"] {
+  border-color: var(--aqua);
+}
+
+.dd-trigger.required-empty {
+  border-color: rgba(185, 28, 28, 0.4);
+  background: var(--red-bg);
+}
+
+.dd-value,
+.dd-placeholder {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dd-placeholder {
+  color: var(--ink-faint);
+}
+
+.dd-chevron {
+  flex: none;
+  width: 10px;
+  height: 6px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23516474' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.dd-panel {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 100%;
+  width: max-content;
+  max-width: 320px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(7, 24, 39, 0.12);
+  display: flex;
+  flex-direction: column;
+  max-height: 280px;
+  overflow: hidden;
+}
+
+.dd-search {
+  flex: none;
+  border: none;
+  border-bottom: 1px solid var(--line-soft);
+  border-radius: 10px 10px 0 0;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.8rem;
+  font-family: inherit;
+  color: var(--ink);
+  background: var(--paper);
+  width: 100%;
+}
+
+.dd-search:focus {
+  outline: none;
+  background: var(--tint);
+}
+
+.dd-options {
+  overflow-y: auto;
+  padding: 0.3rem;
+}
+
+.dd-option {
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.84rem;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.dd-option:hover {
+  background: var(--tint);
+}
+
+.dd-option.on {
+  background: var(--tint-strong);
+  color: var(--aqua);
+  font-weight: 600;
+}
+
+.dd-empty {
+  padding: 0.6rem 0.7rem;
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  text-align: center;
+}
+
+/* Custom calendar (DatePicker.tsx) — same reasoning as the dropdown above:
+   a native date input's picker is OS-drawn and can't be styled. */
+.dp-icon {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='14' height='14'%3E%3Crect x='3' y='5' width='18' height='16' rx='2' ry='2' fill='none' stroke='%23516474' stroke-width='1.6'/%3E%3Cline x1='3' y1='9' x2='21' y2='9' stroke='%23516474' stroke-width='1.6'/%3E%3Cline x1='7' y1='3' x2='7' y2='7' stroke='%23516474' stroke-width='1.6' stroke-linecap='round'/%3E%3Cline x1='17' y1='3' x2='17' y2='7' stroke='%23516474' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.dd-panel.dp-panel {
+  width: 260px;
+  min-width: 260px;
+  max-width: 260px;
+  padding: 0.6rem;
+  gap: 0.4rem;
+}
+
+.dp-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.2rem;
+}
+
+.dp-month {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.dp-nav {
+  border: none;
+  background: none;
+  font-family: inherit;
+  color: var(--ink-faint);
+  font-size: 1rem;
+  line-height: 1;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.dp-nav:hover {
+  background: var(--tint);
+  color: var(--aqua);
+}
+
+.dp-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 0.66rem;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.dp-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.dp-cell {
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 0.8rem;
+  color: var(--ink);
+  padding: 0.4rem 0;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.dp-cell.empty {
+  cursor: default;
+}
+
+.dp-cell:not(.empty):hover {
+  background: var(--tint);
+}
+
+.dp-cell.today {
+  color: var(--aqua);
+  font-weight: 700;
+}
+
+.dp-cell.on {
+  background: var(--aqua);
+  color: #fff;
+  font-weight: 700;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+
+.field-grid + .edit-field {
+  margin-top: 0.7rem;
+}
+
+@media (max-width: 480px) {
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.li-edit {
+  border-top: 1px solid var(--line-soft);
+  padding-top: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.li-edit-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.li-edit-head .t {
+  color: var(--ink-faint);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.li-edit-head .c {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--ink-muted);
+}
+
+.li-edit-row {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.li-edit-row input {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.84rem;
+  font-family: inherit;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.li-edit-row input:hover {
+  border-color: var(--aqua);
+  background: var(--tint);
+}
+
+.li-edit-row input:focus {
+  outline: none;
+  border-color: var(--aqua);
+}
+
+.li-edit-row input.desc {
+  flex: 1;
+  min-width: 0;
+}
+
+.li-edit-row input.amt {
+  width: 90px;
+  flex: none;
+  font-family: var(--font-mono);
+  text-align: right;
+}
+
+.li-edit-row .dd.cat {
+  width: 190px;
+  flex: none;
+  font-size: 0.78rem;
+}
+
+.li-edit-row .dd.chr {
+  width: 150px;
+  flex: none;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 480px) {
+  .li-edit-row {
+    flex-wrap: wrap;
+  }
+  .li-edit-row .dd.cat,
+  .li-edit-row .dd.chr {
+    width: 100%;
+    order: 3;
+  }
+}
+
+.li-edit-row .rm {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-faint);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.li-edit-row .rm:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.li-add {
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--aqua);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.2rem 0;
+}
+
+.li-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-top: 1px dashed var(--line);
+  padding-top: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.li-total-row .status {
+  font-family: var(--font-mono);
+}
+
+.li-total-row.ok .status {
+  color: var(--green);
+}
+
+.li-total-row.gap .status {
+  color: var(--red);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.confirm-error {
+  color: var(--red);
+  font-size: 0.78rem;
+  margin: 0;
+}
+
+/* --- home / module picker (Wireframe 00) --- */
+.home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--tint);
+}
+
+.home-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--paper);
+}
+
+.home-top .word {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+}
+
+.home-top .word b {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--aqua);
+  font-weight: 700;
+  margin-top: 0.1rem;
+}
+
+.home-top .who {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.home-top .who .av {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--aqua);
+  color: #fff;
+  font-size: 0.66rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.home-top .who .t {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.home-top .who .s {
+  font-size: 0.64rem;
+  color: var(--ink-muted);
+}
+
+.home-body {
+  flex: 1;
+  padding: 2rem;
+}
+
+.home-label {
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 260px));
+  gap: 1rem;
+}
+
+.module-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: var(--paper);
+  color: inherit;
+}
+
+.module-card:hover {
+  border-color: var(--aqua);
+  box-shadow: 0 1px 3px rgba(7, 24, 39, 0.08);
+}
+
+.module-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--aqua);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+}
+
+.module-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.module-desc {
+  font-size: 0.74rem;
+  color: var(--ink-muted);
+  line-height: 1.5;
+}
+
+.module-stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.module-stat {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--ink-muted);
+}
+
+.module-stat b {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.module-enter {
+  margin-top: auto;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--aqua);
 }
