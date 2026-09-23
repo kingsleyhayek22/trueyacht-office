@@ -140,9 +140,9 @@ export default async function InboxDetailPage({
     : submission.source_subject || "Needs manual entry";
 
   return (
-    <Shell active="inbox" userName={fullName} counts={counts}>
+    <Shell active="inbox" userName={fullName} counts={counts} activeVessel={submission.vessel_id} activeMethod={submission.submission_source}>
       <div className="detail-top">
-        <a href="/inbox">‹ Back to inbox</a>
+        <a href={`/inbox?vessel=${submission.vessel_id}&method=${submission.submission_source}`}>‹ Back to inbox</a>
       </div>
       <div className="main-top">
         <h1>{title}</h1>

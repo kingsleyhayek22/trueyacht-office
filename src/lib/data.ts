@@ -41,21 +41,56 @@ export async function requireStaff() {
   };
 }
 
+export const INBOX_YACHTS = ["Escapade", "Ohana", "Encore", "Annex"] as const;
+export const INBOX_METHODS = [
+  { key: "email", label: "Email" },
+  { key: "whatsapp", label: "WhatsApp" },
+  { key: "crew_app", label: "Crew App" },
+] as const;
+
+export type InboxTreeYacht = {
+  vesselId: number;
+  name: string;
+  total: number;
+  methods: { key: string; label: string; count: number }[];
+};
+
 /**
  * Sidebar nav badge counts — Inbox (captured/extracted, not yet ready for
- * review) and Queue (awaiting_review). Read-only, cheap head counts.
+ * review) and Queue (awaiting_review), plus the Inbox > Yacht > Method tree
+ * (counts per yacht and per intake method). Read-only, cheap queries.
  */
 export async function getNavCounts(supabase: Awaited<ReturnType<typeof createClient>>) {
-  const [inbox, queue] = await Promise.all([
+  const [inbox, queue, vessels] = await Promise.all([
     supabase
       .from("crew_expense_submissions")
-      .select("id", { count: "exact", head: true })
+      .select("vessel_id, submission_source")
       .in("status", ["captured", "extracted"]),
     supabase
       .from("crew_expense_submissions")
       .select("id", { count: "exact", head: true })
       .eq("status", "awaiting_review"),
+    supabase.from("vessels").select("id, name"),
   ]);
 
-  return { inbox: inbox.count ?? 0, queue: queue.count ?? 0 };
+  const rows = inbox.data ?? [];
+  const tree: InboxTreeYacht[] = INBOX_YACHTS.flatMap((yachtName) => {
+    const v = (vessels.data ?? []).find((x) => x.name.trim().toLowerCase() === yachtName.toLowerCase());
+    if (!v) return [];
+    const mine = rows.filter((r) => r.vessel_id === v.id);
+    return [
+      {
+        vesselId: v.id as number,
+        name: yachtName,
+        total: mine.length,
+        methods: INBOX_METHODS.map((m) => ({
+          key: m.key,
+          label: m.label,
+          count: mine.filter((r) => r.submission_source === m.key).length,
+        })),
+      },
+    ];
+  });
+
+  return { inbox: rows.length, queue: queue.count ?? 0, tree };
 }

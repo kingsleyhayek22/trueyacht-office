@@ -127,6 +127,23 @@ table {
   color: var(--ink-muted);
 }
 
+.nav a.sub {
+  padding-left: 1.3rem;
+  font-weight: 500;
+}
+
+.nav a.sub2 {
+  padding-left: 2.1rem;
+  font-weight: 500;
+  font-size: 0.72rem;
+}
+
+.nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
 .nav a.on {
   background: var(--block-strong);
   color: #fff;

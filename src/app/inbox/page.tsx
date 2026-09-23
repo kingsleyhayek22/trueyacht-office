@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { requireStaff, getNavCounts } from "@/lib/data";
+import { requireStaff, getNavCounts, INBOX_METHODS } from "@/lib/data";
 import { Shell } from "@/components/Shell";
 import { RowLink } from "@/components/RowLink";
 
@@ -8,27 +8,38 @@ import { RowLink } from "@/components/RowLink";
  * receipts@trueyacht.com script) but haven't reached awaiting_review yet.
  * Click a row to open /inbox/[id] and run Confirm/Category/Charter.
  */
-export default async function InboxPage() {
+export default async function InboxPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ vessel?: string; method?: string }>;
+}) {
+  const { vessel, method } = await searchParams;
   const { supabase, fullName } = await requireStaff();
 
-  const [{ data, error }, counts] = await Promise.all([
-    supabase
-      .from("crew_expense_submissions")
-      .select(
-        "id, vendor, amount, currency, status, submission_source, source_sender_name, source_sender_email, created_at, vessels(name)"
-      )
-      .in("status", ["captured", "extracted"])
-      .order("created_at", { ascending: false }),
-    getNavCounts(supabase),
-  ]);
+  const vesselId = Number(vessel) || undefined;
+  const methodKey = INBOX_METHODS.find((m) => m.key === method)?.key;
+
+  let q = supabase
+    .from("crew_expense_submissions")
+    .select(
+      "id, vendor, amount, currency, status, submission_source, source_sender_name, source_sender_email, created_at, vessels(name)"
+    )
+    .in("status", ["captured", "extracted"])
+    .order("created_at", { ascending: false });
+  if (vesselId) q = q.eq("vessel_id", vesselId);
+  if (methodKey) q = q.eq("submission_source", methodKey);
+
+  const [{ data, error }, counts] = await Promise.all([q, getNavCounts(supabase)]);
 
   const rows = data ?? [];
+  const yacht = counts.tree.find((y) => y.vesselId === vesselId);
+  const crumbs = ["Inbox", yacht?.name, INBOX_METHODS.find((m) => m.key === methodKey)?.label].filter(Boolean).join(" › ");
 
   return (
-    <Shell active="inbox" userName={fullName} counts={counts}>
+    <Shell active="inbox" userName={fullName} counts={counts} activeVessel={vesselId} activeMethod={methodKey}>
       <div className="main-top">
         <div>
-          <h1>Inbox</h1>
+          <h1>{crumbs}</h1>
           <div className="sub">
             Receipts captured but not yet ready for review — {rows.length} {rows.length === 1 ? "item" : "items"}.
           </div>
@@ -59,7 +70,9 @@ export default async function InboxPage() {
                 <td className="vessel-tag">
                   {r.submission_source === "email"
                     ? r.source_sender_name || r.source_sender_email || "Email"
-                    : "Crew app"}
+                    : r.submission_source === "whatsapp"
+                      ? "WhatsApp"
+                      : "Crew app"}
                 </td>
                 <td className="vessel-tag">{(r.vessels as unknown as { name: string } | null)?.name ?? "—"}</td>
                 <td className={r.vendor ? "vendor" : "vendor faint"}>{r.vendor ?? "Not extracted yet"}</td>
