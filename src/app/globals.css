@@ -317,6 +317,7 @@ table.q tbody tr:hover td:last-child {
   border: 1px solid rgba(180, 83, 9, 0.25);
 }
 
+.status-chip.approved,
 .status-chip.posted {
   background: var(--green-bg);
   color: var(--green);
@@ -1142,4 +1143,58 @@ table.q tbody tr:hover td:last-child {
   font-size: 0.72rem;
   font-weight: 700;
   color: var(--aqua);
+}
+
+/* Commentary panel + reject dialog */
+.comments { grid-column: 1; }
+.comment-list { list-style: none; margin: 0 0 0.9rem; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+.comment { padding: 0.55rem 0.7rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface, #fff); }
+.comment.reject { border-color: #e0b3a4; background: #fbf1ed; }
+.comment-meta { display: flex; gap: 0.6rem; align-items: baseline; font-size: 0.8rem; margin-bottom: 0.2rem; }
+.comment-tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; color: #a4472a; }
+.comment-time { margin-left: auto; color: var(--muted, #6b7280); }
+.comment-body { white-space: pre-wrap; font-size: 0.9rem; }
+.comment-form { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+.comment-form textarea, .reject-box textarea { width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 0.55rem 0.7rem; font: inherit; }
+.reject-box { display: flex; flex-direction: column; gap: 0.4rem; width: 100%; }
+.reject-box label { font-size: 0.8rem; color: var(--muted, #6b7280); }
+
+/* Read-only line items (Queue detail) — same columns as the Inbox edit rows */
+.li-view {
+  border-top: 1px solid var(--line-soft);
+  padding-top: 0.7rem;
+  margin-top: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.li-view-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font-size: 0.84rem;
+  color: var(--ink);
+  background: var(--paper);
+}
+.li-view-row .desc { flex: 1; min-width: 0; }
+.li-view-row .amt { width: 80px; flex: none; text-align: right; font-family: var(--font-mono); }
+.li-view-row .cat { width: 170px; flex: none; font-size: 0.78rem; }
+.li-view-row .chr { width: 120px; flex: none; font-size: 0.78rem; color: var(--ink-muted); }
+.li-view-labels {
+  border: none;
+  background: none;
+  padding-top: 0;
+  padding-bottom: 0;
+  color: var(--ink-faint);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+@media (max-width: 640px) {
+  .li-view-row { flex-wrap: wrap; }
+  .li-view-row .cat, .li-view-row .chr { width: 100%; }
+  .li-view-labels { display: none; }
 }

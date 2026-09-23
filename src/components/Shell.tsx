@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-type NavKey = "inbox" | "queue";
+type NavKey = "inbox" | "queue" | "approved";
 
 export function Shell({
   active,
@@ -44,9 +44,9 @@ export function Shell({
               <span>Queue</span>
               <span className="n">{counts.queue}</span>
             </Link>
-            <span className="disabled">Flagged</span>
-            <span className="disabled">Sent back</span>
-            <span className="disabled">Posted</span>
+            <Link href="/approved" className={active === "approved" ? "on" : ""}>
+              <span>Approved</span>
+            </Link>
           </div>
         </nav>
 

@@ -67,7 +67,7 @@ reasoning.
 - Login (email/password, Supabase Auth, staff-gated).
 - `/queue` — list of `crew_expense_submissions` where `status='awaiting_review'`.
 - `/queue/[id]` — detail: receipt image, extracted fields, split lines (if
-  any), Approve (logs QBO preview, sets `status='posted'`) / Reject
+  any), Approve (logs QBO preview, sets `status='approved'`) / Reject
   (`status='rejected'`).
 
 ## Not yet built

@@ -13,7 +13,7 @@ export function RowLink({ href, children }: { href: string; children: ReactNode 
   const router = useRouter();
 
   function handleClick(e: MouseEvent<HTMLTableRowElement>) {
-    if ((e.target as HTMLElement).closest("a, button")) return;
+    if ((e.target as HTMLElement).closest("a, button, input, label")) return;
     router.push(href);
   }
 
